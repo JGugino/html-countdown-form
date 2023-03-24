@@ -110,8 +110,9 @@ formTemplate.innerHTML = `
             border: 1px solid var(--light-gray);
             background: var(--light-gray);
             font-size: 18px;
-            font-weight: 500;
+            font-weight: 600;
             color: var(--gray-black);
+            opacity: 90%;
             transition: background ease-in-out 200ms, border ease-in-out 200ms;
             cursor: pointer;
         }
@@ -159,7 +160,7 @@ formTemplate.innerHTML = `
 
         .timer-counter:hover{
             font-size: 48px;
-            font-weight: 600;
+            font-weight: 500;
         }
 
         .slot-legend{
@@ -173,6 +174,7 @@ formTemplate.innerHTML = `
             align-items: center;
             color: var(--gray-black);
             background: var(--light-gray);
+            cursor: default;
         }
 
         .seperator{
@@ -202,7 +204,7 @@ formTemplate.innerHTML = `
                 <input type='text' name='form-name-input' placeholder='Name' required>
                 <input type='email' name='form-email-input' placeholder='E-mail' required>
                 <textarea name='form-message-input' form='counter-form' placeholder='Please type a short message...' required></textarea>
-                <button type='submit'>Send</button>
+                <button type='submit'>SEND</button>
             </form>
         </div>
 
@@ -217,24 +219,24 @@ formTemplate.innerHTML = `
                 <div class='inner-slots'>
                     <div class='timer-slot'>
                         <p class='slot-legend days'>DAYS</p>
-                        <div class='timer-counter counter-days'> <p>99</p> </div>
+                        <div class='timer-counter counter-days'> <p>0</p> </div>
                     </div>
 
                     <div class='timer-slot'>
                         <p class='slot-legend minutes'>MINUTES</p>
-                        <div class='timer-counter counter-minutes'> <p>99</p> </div>
+                        <div class='timer-counter counter-minutes'> <p>0</p> </div>
                     </div>
                 </div>
 
                 <div class='inner-slots'>
                     <div class='timer-slot'>
                         <p class='slot-legend hours'>HOURS</p>
-                        <div class='timer-counter counter-hours'> <p>99</p> </div>
+                        <div class='timer-counter counter-hours'> <p>0</p> </div>
                     </div>
 
                     <div class='timer-slot'>
                         <p class='slot-legend seconds'>SECONDS</p>
-                        <div class='timer-counter counter-seconds'> <p>99</p> </div>
+                        <div class='timer-counter counter-seconds'> <p>0</p> </div>
                     </div>                
                 </div>
             </div>
@@ -246,18 +248,104 @@ formTemplate.innerHTML = `
 class CountdownForm extends HTMLElement{
     constructor() {
         super();
-        this.shadow = this.attachShadow( { mode: "closed" } );
+        this.shadow = this.attachShadow( { mode: "open" } );
         let clone = formTemplate.content.cloneNode(true);
         this.shadow.append(clone);
+        this.countdownInterval = null;
+
+        const counterForm = this.shadow.querySelector('#counter-form');
+
+        counterForm.addEventListener('submit', (event)=>{
+            const submitAction = this.onSubmit && typeof window[this.onSubmit] === 'function' ? window[this.onSubmit] : ()=>{ console.log('No action provided...'); };
+
+            submitAction(event);
+            event.preventDefault();
+        });
     }
 
     attributeChangedCallback(attrName, oldVal, newVal){
+        if(attrName === 'time'){
+            var _this = this;
+            this.countdownInterval = setInterval(()=>{
+                const countdownTime = new Date(newVal);
+                const today = new Date();
+                const second = 1000, minute = second * 60, hour = minute * 60, day = hour * 24;
+                const timeTill = countdownTime - today;
+                
+                if(timeTill <= 0){
+                    clearInterval(this.countdownInterval);
+                    return;
+                }
+
+                const days = Math.floor(timeTill / day);
+                const hours = Math.floor((timeTill % day) / hour);
+                const minutes = Math.floor((timeTill % hour) / minute);
+                const seconds = Math.floor((timeTill % minute) / second);
+
+                const daysCounter = _this.shadowRoot.querySelector('.counter-days');
+                const hoursCounter = _this.shadowRoot.querySelector('.counter-hours');
+                const minutesCounter = _this.shadowRoot.querySelector('.counter-minutes');
+                const secondsCounter = _this.shadowRoot.querySelector('.counter-seconds');
+
+                daysCounter.innerHTML = days;
+                hoursCounter.innerHTML = hours;
+                minutesCounter.innerHTML = minutes;
+                secondsCounter.innerHTML = seconds;
+            }, 1000);
+        }
         
+        if(attrName === 'form-title'){
+            const formTitle = this.shadow.querySelector('.form-title');
+            formTitle.innerHTML = newVal;
+        }
+
+        if(attrName === 'timer-title'){
+            const timerTitle = this.shadow.querySelector('.timer-title');
+            timerTitle.innerHTML = newVal;
+        }
+
+        if(attrName === 'abbr'){
+            const days = this.shadow.querySelector('.days');
+            const hours = this.shadow.querySelector('.hours');
+            const minutes = this.shadow.querySelector('.minutes');
+            const seconds = this.shadow.querySelector('.seconds');
+            
+            if(newVal === "true"){
+                days.innerHTML = 'DAYS';
+                hours.innerHTML = 'HRS';
+                minutes.innerHTML = 'MINS';
+                seconds.innerHTML = 'SECS';
+            }else{
+                days.innerHTML = 'DAYS';
+                hours.innerHTML = 'HOURS';
+                minutes.innerHTML = 'MINUTES';
+                seconds.innerHTML = 'SECONDS';
+            }
+        }
+
+        if(attrName === 'mode'){
+            if(newVal === 'dark'){
+                const mainContainer = this.shadow.querySelector('.counter-form-container');
+                const formContainer = this.shadow.querySelector('.form-container');
+                const slotLegends = this.shadow.querySelectorAll('.slot-legend');
+
+                mainContainer.style.backgroundColor = '#463F3A';
+                formContainer.style.backgroundColor = '#8A817C';
+
+                slotLegends.forEach(legend => {
+                    legend.style.color = '#F4F3EE';
+                });
+            }
+        }
+    }
+
+    countdownTimer(){
+
     }
 
     //Available Attributes
     static get observedAttributes(){
-        return ['form-title', 'timer-title', 'time', 'abbr'];
+        return ['form-title', 'timer-title', 'time', 'abbr', 'mode'];
     }
 
     //Getter & Setter - Form Title
@@ -285,6 +373,33 @@ class CountdownForm extends HTMLElement{
 
     set time(value){
         return this.setAttribute('time', value);
+    }
+
+    //Getter & Setter - Abbr
+    get abbr(){
+        return this.getAttribute('abbr');
+    }
+
+    set abbr(value){
+        return this.setAttribute('abbr', value);
+    }
+
+    //Getter & Setter - Mode
+    get mode(){
+        return this.getAttribute('mode');
+    }
+
+    set mode(value){
+        return this.setAttribute('mode', value);
+    }
+
+    //Getter & Setter - OnSubmit
+    get onSubmit(){
+        return this.getAttribute('on-submit');
+    }
+
+    set onSubmit(value){
+        return this.setAttribute('on-submit', value);
     }
 }
 

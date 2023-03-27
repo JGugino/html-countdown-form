@@ -1,5 +1,5 @@
-const formTemplate = document.createElement('template');
-formTemplate.innerHTML = `
+const smallFormTemplate = document.createElement('template');
+smallFormTemplate.innerHTML = `
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&display=swap');
 
@@ -17,125 +17,37 @@ formTemplate.innerHTML = `
             justify-content: space-around;
             align-items: center;
             flex-wrap: wrap;
-            max-width: 1000px;
+            max-width: 500px;
             min-height: 600px;
             background: var(--light-brown-gray);
             font-family: var(--font-family);
             border: 2px solid var(--dark-brown-gray);
             border-radius: 6px;
-            padding: 1rem 0.6rem;
-        }
-
-        .form-container{
-            width: 500px;
-            min-height: 560px;
-            background: var(--dark-brown-gray);
-            border-radius: 4px;
-        }
-
-        .form-title{
-            color: var(--off-white);
-            font-size: 30px;
-            font-weight: 600;
-            text-align: center;
-        }
-
-        #counter-form{
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            max-width: 500px;
-            margin: 2rem 0 1rem 0;
-            gap: 1rem;
-        }
-
-        #counter-form > input{
-            width: 80%;
-            height: 50px;
-            border-radius: 6px;
-            background: var(--light-gray);
-            outline: none;
-            border: 1px solid var(--light-gray);
-            padding: 0.4rem;
-            font-size: 22px;
-            transition: border ease-in-out 200ms;
-        }
-
-        #counter-form > input:hover{
-            border: 2px solid var(--light-salmon);
-        }
-
-        #counter-form > input:focus{
-            border: 2px solid var(--light-salmon);
-        }
-
-        #counter-form > input::placeholder{
-            color: var(--gray-black);
-            font-weight: 600;
-            opacity: 60%;
-            font-size: 22px;
-        }
-
-        #counter-form > textarea{
-            width: 80%;
-            height: 10rem;
-            resize: none;
-            outline: none;
-            border-radius: 6px;
-            background: var(--light-gray);
-            font-size: 22px;
-            font-family: var(--font-family);
-            padding: 0.4rem;
-        }
-
-        #counter-form > textarea::placeholder{
-            color: var(--gray-black);
-            font-weight: 600;
-            opacity: 60%;
-            font-size: 22px;
-        }
-
-        #counter-form > textarea:hover{
-            border: 2px solid var(--light-salmon);
-        }
-
-        #counter-form > textarea:focus{
-            border: 2px solid var(--light-salmon);
-        }
-
-        #counter-form > button{
-            padding: 0.8rem 2rem;
-            border-radius: 6px;
-            border: 1px solid var(--light-gray);
-            background: var(--light-gray);
-            font-size: 18px;
-            font-weight: 600;
-            color: var(--gray-black);
-            opacity: 90%;
-            transition: background ease-in-out 200ms, border ease-in-out 200ms;
-            cursor: pointer;
-        }
-
-        #counter-form > button:hover{
-            background: var(--light-salmon);
-            border: 1px solid var(--light-salmon);
         }
 
         .timer-title{
             color: var(--off-white);
-            font-size: 30px;
+            font-size: 40px;
             font-weight: 600;
             text-align: center;
             width: 60%;
             margin-inline: auto;
+            user-select: none;
+        }
+
+        .timer-date{
+            color: #212121;
+            font-size: 22px;
+            font-weight: 500;
+            text-align: center;
+            user-select: none;
         }
 
         .timer-slots{
             display: flex;
             justify-content: center;
             gap: 2rem;
-            margin: 1rem 0 0 0;
+            margin: 1rem 0 0.8rem 0;
         }
 
         .inner-slots{
@@ -149,13 +61,20 @@ formTemplate.innerHTML = `
         }
 
         .timer-counter{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--gray-black);
+            background: var(--light-gray);
+            cursor: default;
             width: 100px;
             height: 100px;
             text-align: center;
-            color: var(--gray-black);
             font-size: 40px;
             border-radius: 6px;
             transition: font-size ease-in-out 200ms, font-weight ease-in-out 200ms;
+            user-select: none;
+            filter: drop-shadow(10px 8px 12px rgba(26, 26, 26, 40%));
         }
 
         .timer-counter:hover{
@@ -166,15 +85,7 @@ formTemplate.innerHTML = `
         .slot-legend{
             color: var(--gray-black);
             opacity: 80%;
-        }
-
-        .timer-counter{
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: var(--gray-black);
-            background: var(--light-gray);
-            cursor: default;
+            user-select: none;
         }
 
         .seperator{
@@ -194,24 +105,11 @@ formTemplate.innerHTML = `
 
     <div class='counter-form-container'>
 
-        <!-- Counter Form -->
-        <div class='form-container'>
-            <h3 class='form-title'>Have a Question? Contact Us</h3>
-
-            <span class='seperator'></span>
-
-            <form id='counter-form'>
-                <input type='text' name='form-name-input' placeholder='Name' required>
-                <input type='email' name='form-email-input' placeholder='E-mail' required>
-                <textarea name='form-message-input' form='counter-form' placeholder='Please type a short message...' required></textarea>
-                <button type='submit'>SEND</button>
-            </form>
-        </div>
-
         <!-- Countdown Timer -->
         <div class='timer-container'>
             <h3 class='timer-title'>Countdown to our grad opening!</h3>
 
+            <p class='timer-date'>12/01/2022</p>
             <span class='seperator'></span>
 
             <div class='timer-slots'>
@@ -245,27 +143,21 @@ formTemplate.innerHTML = `
 `;
 
 
-class CountdownForm extends HTMLElement{
+class SmallCountdownForm extends HTMLElement{
     constructor() {
         super();
         this.shadow = this.attachShadow( { mode: "open" } );
-        let clone = formTemplate.content.cloneNode(true);
+        let clone = smallFormTemplate.content.cloneNode(true);
         this.shadow.append(clone);
         this.countdownInterval = null;
-
-        const counterForm = this.shadow.querySelector('#counter-form');
-
-        counterForm.addEventListener('submit', (event)=>{
-            const submitAction = this.onSubmit && typeof window[this.onSubmit] === 'function' ? window[this.onSubmit] : ()=>{ console.log('No action provided...'); };
-
-            submitAction(event);
-            event.preventDefault();
-        });
     }
 
     attributeChangedCallback(attrName, oldVal, newVal){
         if(attrName === 'time'){
             var _this = this;
+            const timerDate = _this.shadow.querySelector('.timer-date');
+            timerDate.innerHTML = newVal;
+
             this.countdownInterval = setInterval(()=>{
                 const countdownTime = new Date(newVal);
                 const today = new Date();
@@ -292,11 +184,6 @@ class CountdownForm extends HTMLElement{
                 minutesCounter.innerHTML = minutes;
                 secondsCounter.innerHTML = seconds;
             }, 1000);
-        }
-        
-        if(attrName === 'form-title'){
-            const formTitle = this.shadow.querySelector('.form-title');
-            formTitle.innerHTML = newVal;
         }
 
         if(attrName === 'timer-title'){
@@ -326,35 +213,65 @@ class CountdownForm extends HTMLElement{
         if(attrName === 'mode'){
             if(newVal === 'dark'){
                 const mainContainer = this.shadow.querySelector('.counter-form-container');
-                const formContainer = this.shadow.querySelector('.form-container');
+                const timerDate = this.shadow.querySelector('.timer-date');
                 const slotLegends = this.shadow.querySelectorAll('.slot-legend');
 
                 mainContainer.style.backgroundColor = '#463F3A';
-                formContainer.style.backgroundColor = '#8A817C';
+                timerDate.style.color = '#F4F3EE';
 
                 slotLegends.forEach(legend => {
                     legend.style.color = '#F4F3EE';
                 });
             }
         }
+
+        if(attrName === 'date-format'){
+            const timerDate = this.shadow.querySelector('.timer-date');
+            if(newVal === 'long'){
+                timerDate.innerHTML = this.formatDate(this.time);
+            }else{
+                timerDate.innerHTML = this.time;
+            }
+        }
     }
 
-    countdownTimer(){
+    formatDate(date){
+        const newDate = new Date(date);
+        return `${this.determineMonthName(newDate.getMonth())} ${newDate.getDay()}, ${newDate.getFullYear()}`;
+    }
 
+    determineMonthName(month){
+        switch(month){
+            case 0:
+                return 'January';
+            case 1:
+                return 'February';
+            case 2:
+                return 'March';
+            case 3:
+                return 'April';
+            case 4:
+                return 'May';
+            case 5:
+                return 'June';
+            case 6:
+                return 'July';
+            case 7:
+                return 'August';
+            case 8:
+                return 'September';
+            case 9:
+                return 'October';
+            case 10:
+                return 'November';
+            case 11:
+                return 'December';
+        }
     }
 
     //Available Attributes
     static get observedAttributes(){
-        return ['form-title', 'timer-title', 'time', 'abbr', 'mode'];
-    }
-
-    //Getter & Setter - Form Title
-    get formTitle(){
-        return this.getAttribute('form-title');
-    }
-
-    set formTitle(value){
-        return this.setAttribute('form-title', value);
+        return ['timer-title', 'time', 'abbr', 'mode', 'date-format'];
     }
 
     //Getter & Setter - Timer Title
@@ -384,6 +301,15 @@ class CountdownForm extends HTMLElement{
         return this.setAttribute('abbr', value);
     }
 
+    //Getter & Setter - DateFormat
+    get dateFormat(){
+        return this.getAttribute('date-format');
+    }
+
+    set dateFormat(value){
+        return this.setAttribute('date-format', value);
+    }
+
     //Getter & Setter - Mode
     get mode(){
         return this.getAttribute('mode');
@@ -392,15 +318,6 @@ class CountdownForm extends HTMLElement{
     set mode(value){
         return this.setAttribute('mode', value);
     }
-
-    //Getter & Setter - OnSubmit
-    get onSubmit(){
-        return this.getAttribute('on-submit');
-    }
-
-    set onSubmit(value){
-        return this.setAttribute('on-submit', value);
-    }
 }
 
-customElements.define('countdown-form-large', CountdownForm);
+customElements.define('countdown-form-small', SmallCountdownForm);

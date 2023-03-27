@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Countdown Form - Gugino</title>
+
+    <link rel='icon' type='image/png' href='/favicon.png'>
+    <link rel="stylesheet" href="app.css">
+    
+    <script src="../components/countdown_form_large.js"></script>
+    <script src="../components/countdown_form_small.js"></script>
+</head>
+<body>
+    <header>
+        <h1 class='demo-title'>HTML COUNTDOWN FORM</h1>
+    </header>
+
+    <div class="content-container">
+
+        <div class="large-light">
+            <h2>Large Countdown Form - Light</h2>
+            <countdown-form-large form-title="Contact Us" timer-title="Grand Opening Coming Soon!" mode="light" time="09/11/2023" date-format="long" on-submit="handleForm" />
+        </div>
+
+        <div class="large-dark">
+            <h2>Large Countdown Form - Dark</h2>
+            <countdown-form-large form-title="Contact Us" timer-title="Grand Opening Coming Soon!" mode="dark" time="09/11/2023" date-format="long" on-submit="handleForm" />
+        </div>
+
+        <div class="small-light">
+            <h2>Small Countdown Form - Light</h2>
+            <countdown-form-small timer-title="Grand Opening Coming Soon!" mode="light" time="10/31/2023" date-format="long" />
+        </div>
+
+        <div class="small-dark">
+            <h2>Small Countdown Form - Dark</h2>
+            <countdown-form-small timer-title="Grand Opening Coming Soon!" mode="dark" time="10/31/2023" date-format="long" />
+        </div>
+
+    </div>
+    
+    <span class='seperator'></span>
+
+    <div class="control-buttons">
+        <button class="control-button prev-button">Prev</button>
+        <button class="control-button next-button">Next</button>
+    </div>
+
+    <footer>
+        &copy; copyright gugino 2023, all rights reserved.
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>

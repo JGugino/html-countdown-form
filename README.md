@@ -1,4 +1,4 @@
-# HTML Countdown Form
+![Countdown Form Cover](https://github.com/JGugino/html-countdown-form/blob/master/releases/publication/build_1.0/html_countdown_cover.png?raw=true "Countdown Form Cover Image")
 
 A simple form and countdown clock used to promote engagement to your upcoming product. Great for use on landing and "Under Construction" pages.
 

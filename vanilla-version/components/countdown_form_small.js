@@ -10,6 +10,7 @@ smallFormTemplate.innerHTML = `
             --off-white: #F4F3EE;
             --light-salmon: #E0AFA0;
             --gray-black: #1A1A1A;
+            --drop-shadow-color-light: rgba(26, 26, 26, 40%);
 
             --font-family: 'Nunito', sans-serif;
 
@@ -74,7 +75,7 @@ smallFormTemplate.innerHTML = `
             border-radius: 6px;
             transition: font-size ease-in-out 200ms, font-weight ease-in-out 200ms;
             user-select: none;
-            filter: drop-shadow(10px 8px 12px rgba(26, 26, 26, 40%));
+            filter: drop-shadow(10px 8px 12px var(--drop-shadow-color-light));
         }
 
         .timer-counter:hover{

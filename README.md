@@ -2,6 +2,7 @@
 
 A simple form and countdown clock used to promote engagement to your upcoming product. Great for use on landing and "Under Construction" pages.
 
+**[View the live demo here!](https://tinyurl.com/countdown-form)**
 ---
 
 ## Usage
